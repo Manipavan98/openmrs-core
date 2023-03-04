@@ -1,0 +1,21 @@
+pipeline {
+    agent {label 'jdk11'} 
+    stages {
+        stage('clone') { 
+            steps {
+                git url:'https://github.com/openmrs/openmrs-core.git' , branch : 'master' 
+            }
+        }
+        stage (path) {
+            steps{
+                sh '''export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin/java:$PATH"
+                   '''
+            }
+        }
+        stage('install') { 
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
